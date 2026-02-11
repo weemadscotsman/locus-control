@@ -1,0 +1,10 @@
+{
+  "name": "Locus Control",
+  "description": "Browser-native control system for fixed immersive environments. Features multi-surface projection mapping, spatial audio routing, and hardware synchronization.",
+  "requestFramePermissions": [
+    "microphone",
+    "display-capture",
+    "serial",
+    "camera"
+  ]
+}
