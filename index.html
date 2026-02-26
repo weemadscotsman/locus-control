@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Locus Control</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            locus: {
+              bg: 'var(--color-bg)',
+              panel: 'var(--color-panel)',
+              border: 'var(--color-border)',
+              accent: 'var(--color-accent)',
+              secondary: 'var(--color-secondary)',
+              text: 'var(--color-text)',
+              textLight: 'var(--color-text-light)',
+              success: 'var(--color-success)',
+              error: 'var(--color-error)'
+            }
+          },
+          animation: {
+            'scanline': 'scanline 8s linear infinite',
+          },
+          keyframes: {
+            scanline: {
+              '0%': { transform: 'translateY(-100%)' },
+              '100%': { transform: 'translateY(100%)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+      /* Default to Work Mode */
+      --color-bg: #0f1115;
+      --color-panel: #161920;
+      --color-border: #2a2f3a;
+      --color-accent: #f59e0b;
+      /* Amber-500 */
+      --color-secondary: #3b82f6;
+      /* Blue-500 */
+      --color-text: #94a3b8;
+      /* Slate-400 */
+      --color-text-light: #e2e8f0;
+      /* Slate-200 */
+      --color-success: #10b981;
+      --color-error: #ef4444;
+    }
+
+    .theme-playground {
+      --color-bg: #050505;
+      --color-panel: rgba(10, 10, 12, 0.8);
+      --color-border: rgba(0, 243, 255, 0.3);
+      --color-accent: #00f3ff;
+      /* Cyan */
+      --color-secondary: #ff00ff;
+      /* Magenta */
+      --color-text: #9ca3af;
+      --color-text-light: #ffffff;
+      --color-success: #00ff41;
+      --color-error: #ff0055;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      overflow: hidden;
+      transition: background-color 0.5s ease;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Scanlines for Playground Mode */
+    .theme-playground .scanlines::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Clean Pro Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--color-panel);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 4px;
+    }
+
+    /* --- ROBUST GRID LAYOUT STYLES --- */
+    .react-grid-layout {
+      position: relative;
+      transition: height 200ms ease;
+    }
+
+    /* Base item style - Enables animation for shuffling/resizing */
+    .react-grid-item {
+      transition: all 200ms ease;
+      transition-property: left, top;
+    }
+
+    .react-grid-item.cssTransforms {
+      transition-property: transform;
+    }
+
+    /* CRITICAL: Disable transition when dragging to prevent "laggy/floaty" feel */
+    .react-grid-item.react-grid-placeholder {
+      background: var(--color-accent) !important;
+      opacity: 0.15 !important;
+      border: 1px dashed var(--color-accent);
+      border-radius: 4px;
+      z-index: 2;
+      transition: none !important;
+      /* Placeholder should snap immediately */
+    }
+
+    /* Active Drag State - Use strict selectors to catch dragging items */
+    .react-grid-item.react-draggable-dragging {
+      transition: none !important;
+      /* Forces instant movement with cursor */
+      z-index: 1000 !important;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--color-accent);
+      opacity: 0.9;
+      will-change: transform;
+    }
+
+    .react-grid-item.resizing {
+      z-index: 100;
+      box-shadow: 0 0 0 1px var(--color-accent);
+      transition: none;
+    }
+
+    /* --- RESIZE HANDLES --- */
+    .react-grid-item>.react-resizable-handle {
+      position: absolute;
+      z-index: 100;
+      opacity: 0.2;
+      transition: opacity 0.2s;
+    }
+
+    .react-grid-item:hover>.react-resizable-handle {
+      opacity: 1;
+    }
+
+    .react-resizable-handle-se {
+      bottom: 2px;
+      right: 2px;
+      width: 12px;
+      height: 12px;
+      cursor: se-resize;
+      background: linear-gradient(135deg, transparent 50%, var(--color-accent) 50%);
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎛️</text></svg>">
+  <!-- Note: Vite handles all module bundling - no importmap needed -->
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

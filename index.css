@@ -1,0 +1,299 @@
+/* ============================================================
+   LOCUS CONTROL - MASTER STYLESHEET
+   ============================================================ */
+
+/* --- BASE RESETS --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* --- NO SCROLLBAR UTILITY --- */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* --- CUSTOM SCROLLBAR --- */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--color-panel, #161920);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-border, #2a2f3a);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* --- REACT GRID LAYOUT CRITICAL STYLES --- */
+/* These MUST be here as the esm.sh bundle doesn't include CSS */
+
+.react-grid-layout {
+    position: relative;
+    transition: height 200ms ease;
+}
+
+.react-grid-item {
+    transition: all 200ms ease;
+    transition-property: left, top, width, height;
+}
+
+.react-grid-item.cssTransforms {
+    transition-property: transform, width, height;
+}
+
+.react-grid-item.resizing {
+    z-index: 100;
+    will-change: width, height;
+}
+
+.react-grid-item.react-draggable-dragging {
+    transition: none !important;
+    z-index: 1000 !important;
+    will-change: transform;
+    opacity: 0.9;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 2px var(--color-accent, #f59e0b);
+}
+
+.react-grid-item.dropping {
+    visibility: hidden;
+}
+
+.react-grid-item.react-grid-placeholder {
+    background: var(--color-accent, #f59e0b) !important;
+    opacity: 0.15 !important;
+    border-radius: 4px;
+    transition-duration: 100ms;
+    z-index: 2;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Resize Handles */
+.react-grid-item>.react-resizable-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+.react-grid-item>.react-resizable-handle::after {
+    content: "";
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-accent, #f59e0b);
+    border-bottom: 2px solid var(--color-accent, #f59e0b);
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+.react-grid-item:hover>.react-resizable-handle::after {
+    opacity: 1;
+}
+
+.react-resizable-handle-se {
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+}
+
+.react-resizable-handle-sw {
+    bottom: 0;
+    left: 0;
+    cursor: sw-resize;
+}
+
+.react-resizable-handle-ne {
+    top: 0;
+    right: 0;
+    cursor: ne-resize;
+}
+
+.react-resizable-handle-nw {
+    top: 0;
+    left: 0;
+    cursor: nw-resize;
+}
+
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+    left: 50%;
+    margin-left: -10px;
+    cursor: ns-resize;
+}
+
+.react-resizable-handle-n {
+    top: 0;
+}
+
+.react-resizable-handle-s {
+    bottom: 0;
+}
+
+.react-resizable-handle-e,
+.react-resizable-handle-w {
+    top: 50%;
+    margin-top: -10px;
+    cursor: ew-resize;
+}
+
+.react-resizable-handle-e {
+    right: 0;
+}
+
+.react-resizable-handle-w {
+    left: 0;
+}
+
+/* --- AUDIO PROCESSING INDICATOR --- */
+@keyframes audio-pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+.audio-active {
+    animation: audio-pulse 0.5s ease-in-out infinite;
+}
+
+/* --- GLOW EFFECTS --- */
+.glow-accent {
+    box-shadow: 0 0 10px var(--color-accent, #f59e0b),
+        0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.glow-success {
+    box-shadow: 0 0 10px var(--color-success, #10b981),
+        0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.glow-error {
+    box-shadow: 0 0 10px var(--color-error, #ef4444),
+        0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+/* --- SCANLINE EFFECT (Playground Mode) --- */
+@keyframes scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+.scanlines::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.15) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+.scanlines::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(0, 255, 255, 0.03) 50%,
+            transparent 100%);
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* --- DRAG HANDLE CURSOR --- */
+.drag-handle {
+    cursor: grab;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+/* --- FOCUS VISIBLE STYLES --- */
+:focus-visible {
+    outline: 2px solid var(--color-accent, #f59e0b);
+    outline-offset: 2px;
+}
+
+/* --- METER ANIMATIONS --- */
+.channel-meter-bar {
+    transition: height 50ms linear, background-color 100ms ease;
+}
+
+/* --- BUTTON ACTIVE STATES --- */
+button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+/* --- DISABLED STATE --- */
+button:disabled,
+input:disabled,
+select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- SELECTION STYLING --- */
+::selection {
+    background: var(--color-accent, #f59e0b);
+    color: white;
+}
+
+/* --- PRINT STYLES --- */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}
